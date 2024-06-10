@@ -1,13 +1,13 @@
-import fletor as ftor
+from fletor import *
 import flet as ft
 
 def main(page: ft.Page):
     page.add(
-        ftor.ResponsiveRow(
+        ResponsiveRow(
             controls=[
-                ftor.ResponsiveRow(
+                ResponsiveRow(
                     controls=[
-                        ftor.ResponsiveColumn(
+                        ResponsiveColumn(
                             controls=[
                                 ft.Text("Hello, World!"),
                                 ft.Text("Goodbye, World!"),
@@ -16,7 +16,7 @@ def main(page: ft.Page):
                             expands=[4,1,1],    
                             debug="red"
                         ),
-                        ftor.ResponsiveColumn(
+                        ResponsiveColumn(
                             controls=[
                                 ft.Text("Hello, World!"),
                                 ft.Text("Goodbye, World!"),
@@ -25,7 +25,7 @@ def main(page: ft.Page):
                             expands=[1,4,1],    
                             debug="green"
                         ),
-                        ftor.ResponsiveColumn(
+                        ResponsiveColumn(
                             controls=[
                                 ft.Text("Hello, World!"),
                                 ft.Text("Goodbye, World!"),
@@ -37,9 +37,9 @@ def main(page: ft.Page):
                     ],
                     debug="yellow"
                 ),
-                ftor.ResponsiveColumn(
+                ResponsiveColumn(
                     controls=[
-                        ftor.ResponsiveRow(
+                        ResponsiveRow(
                             controls=[
                                 ft.Text("Hello, World!"),
                                 ft.Text("Goodbye, World!"),
@@ -48,7 +48,7 @@ def main(page: ft.Page):
                             expands=[4,1,1],    
                             debug="red"
                         ),
-                        ftor.ResponsiveRow(
+                        ResponsiveRow(
                             controls=[
                                 ft.Text("Hello, World!"),
                                 ft.Text("Goodbye, World!"),
@@ -57,7 +57,7 @@ def main(page: ft.Page):
                             expands=[1,4,1],    
                             debug="green"
                         ),
-                        ftor.ResponsiveRow(
+                        ResponsiveRow(
                             controls=[
                                 ft.Text("Hello, World!"),
                                 ft.Text("Goodbye, World!"),
@@ -69,9 +69,9 @@ def main(page: ft.Page):
                     ],
                     debug="yellow"
                 ),
-                ftor.ResponsiveColumn(
+                ResponsiveColumn(
                     controls=[
-                        ftor.ResponsiveRow(
+                        ResponsiveRow(
                             controls=[
                                 ft.Text("Hello, World!"),
                                 ft.Text("Goodbye, World!"),
@@ -80,7 +80,7 @@ def main(page: ft.Page):
                             expands=[1,2,3],    
                             debug="red"
                         ),
-                        ftor.ResponsiveRow(
+                        ResponsiveRow(
                             controls=[
                                 ft.Text("Hello, World!"),
                                 ft.Text("Goodbye, World!"),
@@ -89,7 +89,7 @@ def main(page: ft.Page):
                             expands=[1,2,2],    
                             debug="green"
                         ),
-                        ftor.ResponsiveColumn(
+                        ResponsiveColumn(
                             controls=[
                                 ft.Text("Hello, World!"),
                                 ft.Text("Goodbye, World!"),
