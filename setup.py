@@ -22,7 +22,7 @@ setup(
     long_description_content_type="text/markdown",
     long_description=long_description,
     packages=find_packages(),
-    install_requires=['flet', 'collections'],
+    install_requires=['flet'],
     keywords=['flet', 'component', 'flet component', 'custom flet', 'useful component', 'ositomalvado'],
     classifiers=[
         "Development Status :: 1 - Starting",
