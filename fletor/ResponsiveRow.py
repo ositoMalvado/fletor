@@ -3,7 +3,7 @@ import flet as ft
 from .ResponsiveControl import ResponsiveControl
 
 class ResponsiveRow(ft.Row):
-    def __init__(self, controls: list=[], expands: list=[], debug: bool=False, expand: bool=True, **kwargs):
+    def __init__(self, controls: list=[], expands: list=[], debug: str=False, expand: bool=True, **kwargs):
         super().__init__(**kwargs)
         self.expands = expands if expands else [1] * len(controls)
         self.controls = [

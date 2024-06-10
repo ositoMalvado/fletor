@@ -3,15 +3,15 @@ import flet as ft
 from collections import namedtuple
 
 class ResponsiveControl(cv.Canvas):
-    def __init__(self, content= None, resize_interval=1, on_resize=None, expand=1, padding:ft.padding=0, margin:ft.margin=0, debug:bool=False, **kwargs):
+    def __init__(self, content= None, resize_interval=1, on_resize=None, expand=1, padding:ft.padding=0, margin:ft.margin=0, debug:str=False, **kwargs):
         super().__init__(**kwargs)
         self.content = ft.Container(
                 content=content,
                 padding=5 if debug else padding,
                 alignment=ft.alignment.center,
                 margin=5 if debug else margin,
-                bgcolor=ft.colors.with_opacity(0.2, ft.colors.RED) if debug else None,
-                border=ft.border.all(1, ft.colors.RED) if debug else None,
+                bgcolor=ft.colors.with_opacity(0.2, debug) if debug else None,
+                border=ft.border.all(1, debug) if debug else None,
         )
         self.expand = expand
         self.resize_interval = resize_interval
