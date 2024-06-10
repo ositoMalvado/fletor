@@ -1,37 +1,34 @@
 from setuptools import setup, find_packages
+import codecs
+import os
 
-description = """
-Flet components library
+here = os.path.abspath(os.path.dirname(__file__))
 
-This library provides a set of components that can be used in Flet applications.
+with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
+    long_description = "\n" + fh.read()
 
-**Fletor**
-"""
+VERSION = '0.0.13'
+DESCRIPTION = 'Streaming video data via networks'
+LONG_DESCRIPTION = 'A package that allows to build simple streams of video, audio and camera data.'
 
+# Setting up
 setup(
     name="fletor",
-    version="1.0.0b",
-    author="Julián Perez",
-    author_email="mordecaaii@gmail.com",
-    description="Useful flet components",
-    long_description=description,
+    version="0.0.1b",
+    author="ositoMalvado (Julián Perez)",
+    author_email="<mordecaaii@gmail.com>",
+    description=DESCRIPTION,
     long_description_content_type="text/markdown",
+    long_description=long_description,
     packages=find_packages(),
-    install_requires=["flet"],
-    python_requires=">=3.8",
-    project_urls={
-        "support": "https://ositomalvado.github.io/",
-        "repository": "https://github.com/ositoMalvado/fletor",
-        "tracker": "https://github.com/ositoMalvado/fletor/issues",
-    },
+    install_requires=['flet', 'collections'],
+    keywords=['flet', 'component', 'flet component', 'custom flet', 'useful component', 'ositomalvado'],
     classifiers=[
-        "Development Status :: 1 - Beta",
+        "Development Status :: 1 - Starting",
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3.11",
-        "Programming Language :: Python :: 3.12",
-    ],
+        "Programming Language :: Python :: 3",
+        "Operating System :: Unix",
+        "Operating System :: MacOS :: MacOS X",
+        "Operating System :: Microsoft :: Windows",
+    ]
 )
