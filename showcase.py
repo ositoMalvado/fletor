@@ -77,7 +77,7 @@ def main(page: ft.Page):
                                 ft.Text("Goodbye, World!"),
                                 ft.Text("Hello, World!"),
                             ],
-                            expands=[4,1,1],    
+                            expands=[1,2,3],    
                             debug="red"
                         ),
                         ftor.ResponsiveRow(
@@ -86,7 +86,7 @@ def main(page: ft.Page):
                                 ft.Text("Goodbye, World!"),
                                 ft.Text("Hello, World!"),
                             ],
-                            expands=[1,4,1],    
+                            expands=[1,2,2],    
                             debug="green"
                         ),
                         ftor.ResponsiveColumn(
