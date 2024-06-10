@@ -5,11 +5,11 @@ from .ResponsiveControl import ResponsiveControl
 class ResponsiveColumn(ft.Column):
     def __init__(self, controls: list=[], expands: list=[], debug:bool=False, expand:bool=True, **kwargs):
         super().__init__(**kwargs)
+        self.expands = expands if expands else [1] * len(controls)
         self.controls = [
-            ResponsiveControl(content=control, expand=expands[i], debug=debug)
+            ResponsiveControl(content=control, expand=self.expands[i], debug=debug)
             for i, control in enumerate(controls)
         ]
-        self.expands = expands
         self.expand=expand
         self.spacing=0
 
