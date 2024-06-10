@@ -17,6 +17,7 @@ setup(
     version="0.0.1b",
     author="ositoMalvado (Julián Perez)",
     author_email="<mordecaaii@gmail.com>",
+    url="https://github.com/ositoMalvado/fletor",
     description=DESCRIPTION,
     long_description_content_type="text/markdown",
     long_description=long_description,
