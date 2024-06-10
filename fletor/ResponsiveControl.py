@@ -24,10 +24,7 @@ class ResponsiveControl(cv.Canvas):
         Called every resize_interval when the canvas is resized.
         If a resize_callback was given, it is called.
         """
-        self.size = (int(e.width), int(e.height))
-        self.update()
-        if self.resize_callback:
-            self.resize_callback(e)
+        pass
 
 
 def main(page: ft.Page):
