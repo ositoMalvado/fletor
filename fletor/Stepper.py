@@ -1,6 +1,7 @@
 import flet as ft
 import fletor as ftor
 from .types import *
+from typing import Optional, Union, List
 
 
 class Stepper(ftor.ResponsiveControl):
@@ -8,7 +9,7 @@ class Stepper(ftor.ResponsiveControl):
     def __update(self):
         print(self.step)
         if self.step != -1:
-            if self.style == "FILL":
+            if self.style == "fill":
                 for i in range(self.step+1):
                     self.steps[i].bgcolor = self.steps_color
                 for i in range(self.step+1, len(self.steps)):
@@ -99,20 +100,21 @@ class Stepper(ftor.ResponsiveControl):
             self.step = step
             self.__update()
 
+        ft.Container
     def __init__(
         self,
-        contents,
-        disabled_content,
-        orientation:StepperOrientation=StepperOrientation.HORIZONTAL,
-        style:StepperStyle=StepperStyle.FILL ,
-        step:int=-1,
-        steps_color = ft.colors.ON_PRIMARY,
-        steps_disabled_color = "",
-        steps_anchor:int=5,
-        steps_position: StepperStepsPosition=StepperStepsPosition.START,
-        border_color:str=ft.colors.PRIMARY,
-        border_width=0.5,
-        border_radius = 0,
+        contents:List[ft.Control],
+        disabled_content:ft.Control,
+        orientation:Optional[StepperOrientation]=StepperOrientation.HORIZONTAL,
+        style: Optional[StepperStyle]=StepperStyle.FILL,
+        step:Optional[int]=-1,
+        steps_color:Optional[str] = ft.colors.ON_PRIMARY,
+        steps_disabled_color:Optional[str] = "",
+        steps_anchor:Optional[int]=5,
+        steps_position: Optional[StepperStepsPosition]=StepperStepsPosition.START,
+        border_color:Optional[str]=ft.colors.PRIMARY,
+        border_width:Optional[float]=0.5,
+        border_radius:Optional[float]= 0,
     ):
         super().__init__()
         self.step = step
