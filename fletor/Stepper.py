@@ -242,7 +242,7 @@ def main(page: ft.Page):
             for i in range(10)
         ],
         disabled_content=ft.Text("Disabled"),
-        style=StepperStyle.fill,
+        style=StepperStyle.FILL,
         orientation="horizontal",
         steps_position="end",
         steps_anchor=30,
@@ -280,5 +280,5 @@ def main(page: ft.Page):
     )
 
 
-# if __name__ == "__main__":
-ft.app(target=main)
+if __name__ == "__main__":
+    ft.app(target=main)
