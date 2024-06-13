@@ -1,3 +1,3 @@
 # Fletor
 
-This is a Fletor library for Dart.
+This is a package of Flet components
