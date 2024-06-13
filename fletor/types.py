@@ -1,7 +1,6 @@
-from enum import Enum
 from typing import Dict, Tuple, Union
 
-class StepperStyle(Enum):
+class StepperStyle():
     FILL = "fill"
     ONE = "one"
     FILL_END = "fill_end"
@@ -9,7 +8,7 @@ class StepperStyle(Enum):
     FILL_BETWEEN = "fill_between"
 
 
-class StepperOrientation(Enum):
+class StepperOrientation():
     HORIZONTAL = "horizontal"
     VERTICAL = "vertical"
 
