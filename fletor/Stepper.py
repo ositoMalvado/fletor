@@ -1,6 +1,6 @@
 import flet as ft
 import fletor as ftor
-from .types import StepperStyle
+from .types import *
 
 
 class Stepper(ftor.ResponsiveControl):
@@ -8,7 +8,7 @@ class Stepper(ftor.ResponsiveControl):
     def __update(self):
         print(self.step)
         if self.step != -1:
-            if self.style == "fill":
+            if self.style == "FILL":
                 for i in range(self.step+1):
                     self.steps[i].bgcolor = self.steps_color
                 for i in range(self.step+1, len(self.steps)):
@@ -103,13 +103,13 @@ class Stepper(ftor.ResponsiveControl):
         self,
         contents,
         disabled_content,
-        orientation:str="horizontal",
-        style:StepperStyle=StepperStyle.fill ,
+        orientation:StepperOrientation=StepperOrientation.HORIZONTAL,
+        style:StepperStyle=StepperStyle.FILL ,
         step:int=-1,
         steps_color = ft.colors.ON_PRIMARY,
         steps_disabled_color = "",
         steps_anchor:int=5,
-        steps_position: str="start",
+        steps_position: StepperStepsPosition=StepperStepsPosition.START,
         border_color:str=ft.colors.PRIMARY,
         border_width=0.5,
         border_radius = 0,
