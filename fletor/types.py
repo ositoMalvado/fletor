@@ -12,6 +12,6 @@ class StepperOrientation():
     HORIZONTAL = "horizontal"
     VERTICAL = "vertical"
 
-class StepperStepsPosition(Enum):
+class StepperStepsPosition():
     START = "start"
     END = "end"
