@@ -1,45 +1,67 @@
+#fletor_update/__init__.py
 import flet as ft
-import fletor as ftor
-from .types import *
+from .ResponsiveControl import ResponsiveControl
+from .ResponsiveColumn import ResponsiveColumn
+from .ResponsiveRow import ResponsiveRow
+from .custom_types import *
 from typing import Optional, Union, List
 
 
-class Stepper(ftor.ResponsiveControl):
+class Stepper(ResponsiveControl):
 
     def __update(self):
-        print(self.step)
         if self.step != -1:
             if self.style == "fill":
-                for i in range(self.step+1):
+                for i in range(self.step + 1):
                     self.steps[i].bgcolor = self.steps_color
-                for i in range(self.step+1, len(self.steps)):
+                    self.steps[i].border = self.get_border(border_width=self.border_width, border_color=self.border_color)
+                for i in range(self.step + 1, len(self.steps)):
                     self.steps[i].bgcolor = self.steps_disabled_color
+                    self.steps[i].border = self.get_border(border_width=self.border_width, border_color=self.border_disabled_color)
 
             elif self.style == "one":
                 for i in range(len(self.steps)):
                     if i == self.step:
                         self.steps[i].bgcolor = self.steps_color
+                        self.steps[i].border = self.get_border(border_width=self.border_width, border_color=self.border_color)
                     else:
                         self.steps[i].bgcolor = self.steps_disabled_color
+                        self.steps[i].border = self.get_border(border_width=self.border_width, border_color=self.border_disabled_color)
 
-            if self.style == "fill_end":
+            elif self.style == "fill_end":
                 for i in range(self.step):
                     self.steps[i].bgcolor = self.steps_disabled_color
+                    self.steps[i].border = self.get_border(border_width=self.border_width, border_color=self.border_disabled_color)
                 for i in range(self.step, len(self.steps)):
                     self.steps[i].bgcolor = self.steps_color
-            
-            if self.style == "fill_between":
+                    self.steps[i].border = self.get_border(border_width=self.border_width, border_color=self.border_color)
+
+            elif self.style == "fill_between":
                 for i in range(len(self.steps)):
                     if i == self.step:
                         self.steps[i].bgcolor = self.steps_disabled_color
+                        self.steps[i].border = self.get_border(border_width=self.border_width, border_color=self.border_disabled_color)
                     else:
                         self.steps[i].bgcolor = self.steps_color
+                        self.steps[i].border = self.get_border(border_width=self.border_width, border_color=self.border_color)
+
+                        
+            elif self.style == "one":
+                for i in range(len(self.steps)):
+                    if i == self.step:
+                        self.steps[i].bgcolor = self.steps_color
+                        self.steps[i].border = self.get_border(border_width=self.border_width, border_color=self.border_disabled_color)
+                    else:
+                        self.steps[i].bgcolor = self.steps_disabled_color
+                        self.steps[i].border = self.get_border(border_width=self.border_width, border_color=self.border_color)
 
         self.contenedor_bottom.content = self.contents[self.step]
         if self.step == -1:
             self.contenedor_bottom.content = self.disabled_content
             for i in range(len(self.steps)):
                 self.steps[i].bgcolor = self.steps_disabled_color
+                self.steps[i].border = self.get_border(border_width=self.border_width, border_color=self.border_disabled_color)
+
         # self.contenedor_bottom.update()
         self.contenedor_bottom.content = self.contenedor_bottom.content
         self.update()
@@ -59,7 +81,8 @@ class Stepper(ftor.ResponsiveControl):
             self.__update()
         return super().did_mount()
 
-    def get_border(self, horizontal, index, length, border_width, border_color):
+    def get_border(self, border_width, border_color):
+        return ft.border.all(border_width, border_color)
         if horizontal:
             borders = {
                 "left": ft.BorderSide(border_width, border_color),
@@ -85,12 +108,12 @@ class Stepper(ftor.ResponsiveControl):
             else:
                 return ft.border.only(left=borders["left"], top=borders["top"], right=borders["right"])
 
-    def next_step(self):
+    def next_step(self, e=None):
         if self.step < len(self.contents) - 1:
             self.step += 1
             self.__update()
 
-    def previous_step(self):
+    def previous_step(self, e=None):
         if self.step > -1:
             self.step -= 1
             self.__update()
@@ -113,8 +136,10 @@ class Stepper(ftor.ResponsiveControl):
         steps_anchor:Optional[int]=5,
         steps_position: Optional[StepperStepsPosition]=StepperStepsPosition.START,
         border_color:Optional[str]=ft.colors.PRIMARY,
+        border_disabled_color:Optional[str]=ft.colors.GREY,
         border_width:Optional[float]=0.5,
         border_radius:Optional[float]= 0,
+        tap_separate:Optional[bool]=False,
     ):
         super().__init__()
         self.step = step
@@ -122,13 +147,15 @@ class Stepper(ftor.ResponsiveControl):
         self.contents = contents
         self.orientation = orientation
         self.border_color = border_color
+        self.border_disabled_color = border_disabled_color
         self.border_width = border_width
         self.border_radius = border_radius
         self.steps_color = steps_color
         self.steps_disabled_color = steps_disabled_color
         self.steps_position = steps_position
         self.steps_anchor = steps_anchor
-        self.disabled_content = ftor.ResponsiveControl(
+        self.tap_separate = tap_separate
+        self.disabled_content = ResponsiveControl(
             disabled_content
         )
 
@@ -145,7 +172,7 @@ class Stepper(ftor.ResponsiveControl):
                     on_click=self.__on_click,
                     data=i,
                     border_radius=self.border_radius,
-                    border=final_border
+                    border=final_border,
                 )
             )
         if self.orientation == "horizontal":
@@ -163,18 +190,120 @@ class Stepper(ftor.ResponsiveControl):
 
 
         if self.orientation == "horizontal":
-            self.content = ftor.ResponsiveColumn(
+            self.content = ResponsiveColumn(
                 [
-                    ftor.ResponsiveRow(
+                    ResponsiveRow(
                         [
                             self.steps[i]
                             for i in range(len(self.steps))
                         ],
                     ),
-                    self.contenedor_bottom
+                    ResponsiveRow(
+                        [
+                            ft.Container(
+                                ResponsiveColumn(
+                                    [
+                                        ft.Icon(ft.icons.ARROW_BACK)
+                                    ],
+                                ),
+                                on_click=self.previous_step,
+                                bgcolor=ft.colors.with_opacity(0.1, ft.colors.PRIMARY),
+                            ),
+                            self.contenedor_bottom,
+                            ft.Container(
+                                ResponsiveColumn(
+                                    [
+                                        ft.Icon(ft.icons.ARROW_FORWARD)
+                                    ],
+                                ),
+                                on_click=self.next_step,
+                                bgcolor=ft.colors.with_opacity(0.1, ft.colors.PRIMARY),
+                            ),
+                        ],
+                        expands=[20,100,20]
+                    ) if self.tap_separate else ft.Stack(
+                        [
+                            self.contenedor_bottom,
+                            ResponsiveRow(
+                                [
+                                    ft.Container(
+                                        ResponsiveColumn(
+                                            [
+                                                ft.Icon(ft.icons.ARROW_BACK)
+                                            ],
+                                        ),
+                                        on_click=self.previous_step,
+                                        bgcolor=ft.colors.with_opacity(0.1, ft.colors.PRIMARY),
+                                    ),
+                                    ft.Text(),
+                                    ft.Container(
+                                        ResponsiveColumn(
+                                            [
+                                                ft.Icon(ft.icons.ARROW_FORWARD)
+                                            ],
+                                        ),
+                                        on_click=self.next_step,
+                                        bgcolor=ft.colors.with_opacity(0.1, ft.colors.PRIMARY),
+                                    ),
+                                ],
+                                expands=[20,100,20]
+                            )
+                        ]
+                    )
                 ] if self.steps_position == "start" else [
-                    self.contenedor_bottom,
-                    ftor.ResponsiveRow(
+                    ft.Stack(
+                        [
+                            self.contenedor_bottom,
+                            ResponsiveRow(
+                                [
+                                    ft.Container(
+                                        ResponsiveColumn(
+                                            [
+                                                ft.Icon(ft.icons.ARROW_BACK)
+                                            ],
+                                        ),
+                                        on_click=self.previous_step,
+                                        bgcolor=ft.colors.with_opacity(0.1, ft.colors.PRIMARY),
+                                    ),
+                                    ft.Text(),
+                                    ft.Container(
+                                        ResponsiveColumn(
+                                            [
+                                                ft.Icon(ft.icons.ARROW_FORWARD)
+                                            ],
+                                        ),
+                                        on_click=self.next_step,
+                                        bgcolor=ft.colors.with_opacity(0.1, ft.colors.PRIMARY),
+                                    ),
+                                ],
+                                expands=[20,100,20]
+                            )
+                        ]
+                    ) if self.tap_separate else ResponsiveRow(
+                        [
+                            ft.Container(
+                                ResponsiveColumn(
+                                    [
+                                        ft.Icon(ft.icons.ARROW_BACK)
+                                    ],
+                                ),
+                                on_click=self.previous_step,
+                                bgcolor=ft.colors.with_opacity(0.1, ft.colors.PRIMARY),
+                            ),
+                            self.contenedor_bottom,
+                            ft.Container(
+                                ResponsiveColumn(
+                                    [
+                                        ft.Icon(ft.icons.ARROW_FORWARD)
+                                    ],
+                                ),
+                                on_click=self.next_step,
+                                bgcolor=ft.colors.with_opacity(0.1, ft.colors.PRIMARY),
+                            ),
+                        ],
+                        expands=[20,100,20]
+                    ),
+                    ResponsiveRow(
                         [
                             self.steps[i]
                             for i in range(len(self.steps))
@@ -183,25 +312,128 @@ class Stepper(ftor.ResponsiveControl):
                 ],
                 expands=[False, True] if self.steps_position == "start" else [True, False]
             )
-        else:
-            self.content = ftor.ResponsiveRow(
+        elif self.orientation == "vertical":
+            self.content = ResponsiveRow(
                 [
-                    ftor.ResponsiveColumn(
+                    
+                    ResponsiveColumn(
                         [
                             self.steps[i]
                             for i in range(len(self.steps))
                         ],
                     ),
-                    self.contenedor_bottom
+                    ft.Stack(
+                        [
+                            self.contenedor_bottom,
+                            ResponsiveRow(
+                                [
+                                    ft.Container(
+                                        ResponsiveColumn(
+                                            [
+                                                ft.Icon(ft.icons.ARROW_BACK)
+                                            ],
+                                        ),
+                                        on_click=self.previous_step,
+                                        bgcolor=ft.colors.with_opacity(0.1, ft.colors.PRIMARY),
+                                    ),
+                                    ft.Text(),
+                                    ft.Container(
+                                        ResponsiveColumn(
+                                            [
+                                                ft.Icon(ft.icons.ARROW_FORWARD)
+                                            ],
+                                        ),
+                                        on_click=self.next_step,
+                                        bgcolor=ft.colors.with_opacity(0.1, ft.colors.PRIMARY),
+                                    ),
+                                ],
+                                expands=[20,100,20]
+                            )
+                        ]
+                    ) if not self.tap_separate else ResponsiveRow(
+                        [
+                            ft.Container(
+                                ResponsiveColumn(
+                                    [
+                                        ft.Icon(ft.icons.ARROW_BACK)
+                                    ],
+                                ),
+                                on_click=self.previous_step,
+                                bgcolor=ft.colors.with_opacity(0.1, ft.colors.PRIMARY),
+                            ),
+                            self.contenedor_bottom,
+                            ft.Container(
+                                ResponsiveColumn(
+                                    [
+                                        ft.Icon(ft.icons.ARROW_FORWARD)
+                                    ],
+                                ),
+                                on_click=self.next_step,
+                                bgcolor=ft.colors.with_opacity(0.1, ft.colors.PRIMARY),
+                            ),
+                        ],
+                        expands=[20,100,20]
+                    )
                 ] if self.steps_position == "start" else [
-                    self.contenedor_bottom,
-                    ftor.ResponsiveColumn(
+                    ft.Stack(
+                        [
+                            self.contenedor_bottom,
+                            ResponsiveRow(
+                                [
+                                    ft.Container(
+                                        ResponsiveColumn(
+                                            [
+                                                ft.Icon(ft.icons.ARROW_BACK)
+                                            ],
+                                        ),
+                                        on_click=self.previous_step,
+                                        bgcolor=ft.colors.with_opacity(0.1, ft.colors.PRIMARY),
+                                    ),
+                                    ft.Text(),
+                                    ft.Container(
+                                        ResponsiveColumn(
+                                            [
+                                                ft.Icon(ft.icons.ARROW_FORWARD)
+                                            ],
+                                        ),
+                                        on_click=self.next_step,
+                                        bgcolor=ft.colors.with_opacity(0.1, ft.colors.PRIMARY),
+                                    ),
+                                ],
+                                expands=[20,100,20]
+                            )
+                        ]
+                    ) if not self.tap_separate else ResponsiveRow(
+                        [
+                            ft.Container(
+                                ResponsiveColumn(
+                                    [
+                                        ft.Icon(ft.icons.ARROW_BACK)
+                                    ],
+                                ),
+                                on_click=self.previous_step,
+                                bgcolor=ft.colors.with_opacity(0.1, ft.colors.PRIMARY),
+                            ),
+                            self.contenedor_bottom,
+                            ft.Container(
+                                ResponsiveColumn(
+                                    [
+                                        ft.Icon(ft.icons.ARROW_FORWARD)
+                                    ],
+                                ),
+                                on_click=self.next_step,
+                                bgcolor=ft.colors.with_opacity(0.1, ft.colors.PRIMARY),
+                            ),
+                        ],
+                        expands=[20,100,20]
+                    ),
+                    ResponsiveColumn(
                         [
                             self.steps[i]
                             for i in range(len(self.steps))
                         ],
                         # debug="green"
-                    ),
+                    )
                 ],
                 expands=[False, True] if self.steps_position == "start" else [True, False]
             )
@@ -226,7 +458,7 @@ def main(page: ft.Page):
 
     stepper = Stepper(
         contents=[
-            ftor.ResponsiveColumn(
+            ResponsiveColumn(
                 [
                     Stepper(
                         contents=[ft.Text(f"Hello, World! FOR {i+1} TIME ") for i in range(10)],
@@ -255,14 +487,14 @@ def main(page: ft.Page):
     
 
     page.add(
-        ftor.ResponsiveColumn(
+        ResponsiveColumn(
             [
-                ftor.ResponsiveRow( 
+                ResponsiveRow( 
                 [
                     stepper,
                 ]
             ),
-            ftor.ResponsiveRow(
+            ResponsiveRow(
                 [
                     ft.IconButton(
                         icon=ft.icons.ARROW_BACK,
